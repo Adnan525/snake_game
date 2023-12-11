@@ -7,7 +7,7 @@ import random
 point = namedtuple("point", "x, y") 
 
 BLOCK_SIZE = 20
-SPEED = 40
+SPEED = 20
 
 # rgb colours
 WHITE = (255, 255, 255)
@@ -73,26 +73,26 @@ class SnakeGame:
                 elif event.key == pygame.K_DOWN:
                     self.direction = Direction.DOWN
                     
-        # # 2. move
-        # self._move(self.direction)
-        # self.snake.insert(0, self.head)
+        # 2. move
+        self._move(self.direction)
+        self.snake.insert(0, self.head)
         
-        # # 3. check if game over
-        # game_over = False
-        # if self._is_collision():
-        #     game_over = True
-        #     return game_over, self.score
+        # 3. check if game over
+        game_over = False
+        if self._is_collision():
+            game_over = True
+            return game_over, self.score
         
-        # # 4. place new food or just move
-        # if self.head == self.food:
-        #     self.score += 1
-        #     self._place_food()
-        # else:
-        #     self.snake.pop()
+        # 4. place new food or just move
+        if self.head == self.food:
+            self.score += 1
+            self._place_food()
+        else:
+            self.snake.pop()
             
         # 5. update ui and clock
         self._update_ui()
-        self.clock.tick(SPEED) # frames per second
+        self.clock.tick(SPEED) # game speed
         
         # 6. return game over and score
         game_over = False
@@ -114,3 +114,28 @@ class SnakeGame:
         self.display.blit(text, [0, 0])
         # update  
         pygame.display.flip()
+        
+    def _move(self, direction):
+        x = self.head.x
+        y = self.head.y
+        
+        if direction == Direction.RIGHT:
+            x += BLOCK_SIZE
+        elif direction == Direction.LEFT:
+            x -= BLOCK_SIZE
+        elif direction == Direction.UP:
+            y -= BLOCK_SIZE
+        elif direction == Direction.DOWN:
+            y += BLOCK_SIZE
+            
+        self.head = point(x, y)
+        
+    def _is_collision(self):
+        # hits boundary
+        if self.head.x > self.w - BLOCK_SIZE or self.head.x < 0 or self.head.y > self.h - BLOCK_SIZE or self.head.y < 0:
+            return True
+        # hits itself
+        if self.head in self.snake[1:]:
+            return True
+        
+        return False
