@@ -7,7 +7,7 @@ import random
 point = namedtuple("point", "x, y") 
 
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 2
 
 # rgb colours
 WHITE = (255, 255, 255)
@@ -59,7 +59,7 @@ class SnakeGame:
         
         # 1. collect user input
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame:
                 pygame.quit()
                 quit()
                 
@@ -88,14 +88,13 @@ class SnakeGame:
             self.score += 1
             self._place_food()
         else:
-            self.snake.pop()
+            self.snake.pop() # check this
             
         # 5. update ui and clock
         self._update_ui()
         self.clock.tick(SPEED) # game speed
         
         # 6. return game over and score
-        game_over = False
         return game_over, self.score
     
     def _update_ui(self):
