@@ -7,7 +7,7 @@ import random
 point = namedtuple("point", "x, y") 
 
 BLOCK_SIZE = 20
-SPEED = 2
+SPEED = 20
 
 # rgb colours
 WHITE = (255, 255, 255)
